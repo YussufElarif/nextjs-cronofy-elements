@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import * as CronofyElements from "cronofy-elements";
 
 export const CalendarSyncWrapper = ({ options }) => {
   const [element, setElement] = useState(null);
 
   useEffect(() => {
-    if (!element) {
+    const initCronofy = async () => {
+      const CronofyElements = await import("cronofy-elements")
       setElement(CronofyElements.CalendarSync(options));
+    }
+
+    if (!element) {
+      initCronofy()
     }
   }, []);
 
@@ -16,6 +20,5 @@ export const CalendarSyncWrapper = ({ options }) => {
     }
   }, [options]);
 
-  return <div id="cronofy-calendar-sync" />;
+  return <div id={options.target_id} />;
 };
-  
